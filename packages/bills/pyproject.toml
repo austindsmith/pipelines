@@ -8,11 +8,13 @@ authors = [
 ]
 requires-python = ">=3.13"
 dependencies = [
+    "duckdb>=1.5.5",
     "onepassword-sdk>=0.4.1",
     "playwright>=1.62.0",
     "pydantic>=2.13.4",
     "pydantic-settings>=2.15.0",
     "python-dotenv>=1.2.3",
+    "stamina>=26.1.0",
 ]
 
 [build-system]
