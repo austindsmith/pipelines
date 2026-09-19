@@ -1,7 +1,6 @@
 from playwright.sync_api import sync_playwright
 
 
-
 def open_browser():
     with sync_playwright() as p:
         browser = p.chromium.launch(channel="chromium", headless=False)
@@ -11,9 +10,10 @@ def open_browser():
         page.pause()
         browser.close()
 
+
 def main():
     open_browser()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()
