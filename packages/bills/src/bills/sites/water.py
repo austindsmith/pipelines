@@ -20,6 +20,7 @@ async def download_bill(
     )
     await page.get_by_role("button", name="Sign In", exact=True).click()
     await page.get_by_role("button", name="VIEW/PAY BILL").click()
+    await page.get_by_role("link", name="History").click()
     await page.wait_for_load_state("networkidle")
 
     export = page.get_by_role("button", name="Export")

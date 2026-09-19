@@ -1,0 +1,9 @@
+version: 2
+
+analyses:
+  - name: payments__unsettled
+    description: >
+      Usage:
+        ```bash
+        dbt show -s payments__unsettled --limit 100 --vars '{unsettled_since: "2026-06-01", unsettled_through: "2026-10-01"}'
+        ```

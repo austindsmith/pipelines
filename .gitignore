@@ -3,3 +3,4 @@ uv.lock
 __pycache__
 .browser
 .ruff_cache
+logs/

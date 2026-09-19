@@ -1,0 +1,35 @@
+name: 'dbt_project'
+version: '1.0.0'
+
+profile: 'dbt_project'
+
+model-paths: ["models"]
+analysis-paths: ["analyses"]
+test-paths: ["tests"]
+seed-paths: ["seeds"]
+macro-paths: ["macros"]
+snapshot-paths: ["snapshots"]
+
+clean-targets:
+  - "target"
+  - "dbt_packages"
+
+
+models:
+  dbt_project:
+    staging:
+      +materialized: view
+      +dbt-osmosis: "_{parent}__models.yml"
+    intermediate:
+      +materialized: ephemeral
+      +dbt-osmosis: "_int_{parent}__models.yml"
+    marts:
+      +materialized: table
+      +dbt-osmosis: "_{parent}__models.yml"
+
+vars:
+  dbt-osmosis:
+    sources:
+      bills:
+        path: "staging/bills/_bills__sources.yml"
+        schema: main

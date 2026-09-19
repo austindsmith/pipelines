@@ -5,6 +5,8 @@ import duckdb
 
 from bills.settings import Site
 
+PROVIDER = "provider"
+ITEM_NAME = "item_name"
 SOURCE = "_source"
 LOADED_AT = "_loaded_at"
 READER = "read_csv(?, all_varchar=true, normalize_names=true)"
@@ -56,11 +58,19 @@ def loaded(connection: duckdb.DuckDBPyConnection, name: str) -> set[str]:
 
 
 def insert(
-    connection: duckdb.DuckDBPyConnection, name: str, path: Path, origin: str
+    connection: duckdb.DuckDBPyConnection,
+    name: str,
+    path: Path,
+    origin: str,
+    site: Site,
 ) -> int:
     table = identifier(name)
     select = (
-        f"SELECT *, ? AS {identifier(SOURCE)}, {NOW} AS {identifier(LOADED_AT)} "
+        f"SELECT *, "
+        f"? AS {identifier(PROVIDER)}, "
+        f"? AS {identifier(ITEM_NAME)}, "
+        f"? AS {identifier(SOURCE)}, "
+        f"{NOW} AS {identifier(LOADED_AT)} "
         f"FROM {READER}"
     )
     statement = (
@@ -69,7 +79,7 @@ def insert(
         else f"CREATE TABLE {table} AS {select}"
     )
     try:
-        connection.execute(statement, [origin, str(path)])
+        connection.execute(statement, [site.item, site.key.title(), origin, str(path)])
     except duckdb.Error as error:
         raise RuntimeError(f"could not load {origin}: {error}") from error
     return connection.execute(
@@ -135,7 +145,9 @@ def load(
         for path in exports(site, base)
         if source(path, base) not in already
     ]
-    return {origin: insert(connection, name, path, origin) for path, origin in pending}
+    return {
+        origin: insert(connection, name, path, origin, site) for path, origin in pending
+    }
 
 
 def count(connection: duckdb.DuckDBPyConnection, name: str) -> int:

@@ -1,0 +1,92 @@
+version: 2
+models:
+  - name: stg_bills__electricity
+    columns:
+      - name: provider
+        data_type: VARCHAR
+      - name: item_name
+        data_type: VARCHAR
+      - name: customer_code
+        data_type: VARCHAR
+      - name: premise_code
+        data_type: VARCHAR
+      - name: last_name
+        data_type: VARCHAR
+      - name: first_name
+        data_type: VARCHAR
+      - name: address_line_1
+        data_type: VARCHAR
+      - name: address_line_2
+        data_type: VARCHAR
+      - name: city
+        data_type: VARCHAR
+      - name: state
+        data_type: VARCHAR
+      - name: zip_code
+        data_type: VARCHAR
+      - name: payment_amount
+        data_type: DECIMAL(12,2)
+      - name: payment_date
+        data_type: DATE
+      - name: _source
+        data_type: VARCHAR
+      - name: _loaded_at
+        data_type: TIMESTAMP
+  - name: stg_bills__gas
+    columns:
+      - name: provider
+        data_type: VARCHAR
+      - name: item_name
+        data_type: VARCHAR
+      - name: payment_amount
+        data_type: DECIMAL(12,2)
+      - name: payment_date
+        data_type: DATE
+      - name: _source
+        data_type: VARCHAR
+      - name: _loaded_at
+        data_type: TIMESTAMP
+  - name: stg_bills__seed
+    columns:
+      - name: item_name
+        data_type: VARCHAR
+      - name: provider
+        data_type: VARCHAR
+      - name: payer
+        data_type: VARCHAR
+      - name: frequency
+        data_type: VARCHAR
+      - name: notes
+        data_type: VARCHAR
+      - name: amount
+        data_type: DECIMAL(12,2)
+      - name: start_date
+        data_type: DATE
+      - name: end_date
+        data_type: DATE
+      - name: _source
+        data_type: VARCHAR
+      - name: _loaded_at
+        data_type: TIMESTAMP
+  - name: stg_bills__water
+    columns:
+      - name: provider
+        data_type: VARCHAR
+      - name: item_name
+        data_type: VARCHAR
+      - name: account_number
+        data_type: VARCHAR
+      - name: service_address
+        data_type: VARCHAR
+      - name: amount_due
+        data_type: DECIMAL(12,2)
+      - name: payment_amount
+        data_type: DECIMAL(12,2)
+      - name: bill_date
+        data_type: DATE
+      - name: due_date
+        data_type: DATE
+      - name: _source
+        data_type: VARCHAR
+      - name: _loaded_at
+        data_type: TIMESTAMP

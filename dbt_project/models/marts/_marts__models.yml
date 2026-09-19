@@ -1,0 +1,28 @@
+version: 2
+models:
+  - name: fct_payments
+    columns:
+      - name: item_name
+        data_type: VARCHAR
+      - name: provider
+        data_type: VARCHAR
+      - name: payer
+        data_type: VARCHAR
+      - name: amount
+        data_type: DECIMAL(12,2)
+      - name: payment_month
+        data_type: TIMESTAMP
+      - name: _source
+        data_type: VARCHAR
+  - name: payments
+    columns:
+      - name: payment_month
+        data_type: TIMESTAMP
+      - name: total_paid
+        data_type: DECIMAL(38,2)
+      - name: owed_by
+        data_type: VARCHAR
+      - name: owed_to
+        data_type: VARCHAR
+      - name: amount_owed
+        data_type: DOUBLE
