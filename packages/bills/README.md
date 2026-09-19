@@ -37,3 +37,9 @@ Just load one site's csvs
 ```bash
 uv run -m bills.load gas
 ```
+
+Loading Google Sheet seed
+
+```bash
+uv run -m bills.seed
+```

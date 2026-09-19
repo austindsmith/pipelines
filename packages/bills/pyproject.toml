@@ -9,6 +9,7 @@ authors = [
 requires-python = ">=3.13"
 dependencies = [
     "duckdb>=1.5.5",
+    "google-auth[requests]>=2.38.0",
     "onepassword-sdk>=0.4.1",
     "playwright>=1.62.0",
     "pydantic>=2.13.4",

@@ -5,7 +5,7 @@ from io import StringIO
 from pathlib import Path
 
 from dotenv import dotenv_values
-from pydantic import BaseModel, SecretStr
+from pydantic import AliasChoices, BaseModel, Field, SecretStr
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
@@ -78,6 +78,20 @@ class Settings(BaseSettings):
     gas_code_sender: str
     gas_code_subject: str
     gmail: str = ""
+
+    google_credentials: str = Field(
+        "",
+        validation_alias=AliasChoices("google_credentials", "bills_google_credentials"),
+    )
+    google_sheet_id: str = Field(
+        "",
+        validation_alias=AliasChoices("google_sheet_id", "bills_google_sheet_id"),
+    )
+    seed_sheet_name: str = Field(
+        "seed",
+        validation_alias=AliasChoices("seed_sheet_name", "bills_seed_sheet_name"),
+    )
+    seed_table: str = "seed"
 
     @property
     def database(self) -> Path:

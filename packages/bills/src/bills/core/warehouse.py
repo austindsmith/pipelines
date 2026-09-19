@@ -77,6 +77,47 @@ def insert(
     ).fetchone()[0]
 
 
+def columns(header: list[str]) -> list[str]:
+    names: list[str] = []
+    for index, value in enumerate(header):
+        name = slug(value) or f"column_{index + 1}"
+        while name in names:
+            name = f"{name}_{index + 1}"
+        names.append(name)
+    return names
+
+
+def fit(row: list[str], width: int) -> list[str | None]:
+    padded: list[str | None] = list(row[:width])
+    return padded + [None] * (width - len(padded))
+
+
+def replace(
+    connection: duckdb.DuckDBPyConnection,
+    name: str,
+    values: list[list[str]],
+    origin: str,
+) -> int:
+    if not values:
+        raise RuntimeError(f"{origin} has no header row")
+
+    table = identifier(name)
+    header, *body = values
+    names = columns(header)
+    declared = ", ".join(f"{identifier(column)} VARCHAR" for column in names)
+    connection.execute(
+        f"CREATE OR REPLACE TABLE {table} ({declared}, "
+        f"{identifier(SOURCE)} VARCHAR, {identifier(LOADED_AT)} TIMESTAMP)"
+    )
+    if body:
+        placeholders = ", ".join(["?"] * len(names))
+        connection.executemany(
+            f"INSERT INTO {table} VALUES ({placeholders}, ?, {NOW})",
+            [[*fit(row, len(names)), origin] for row in body],
+        )
+    return count(connection, name)
+
+
 def load(
     connection: duckdb.DuckDBPyConnection,
     name: str,
